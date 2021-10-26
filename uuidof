@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+gcc src/uuidof.c -o bin/uuidof && ./bin/uuidof;
