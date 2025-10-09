@@ -139,4 +139,7 @@ mod tests {
             }
         }
     }
+
+    #[test]
+    fn get_uuid_of_test() {} // I don't know how to write this test
 }
