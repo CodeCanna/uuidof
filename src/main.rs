@@ -72,10 +72,14 @@ fn get_uuid_of(
     Some(uuid)
 }
 
-// fn print_help() {
-//     println!("uuidof usage:")
-//     println!("uuid")
-// }
+fn print_help() {
+    println!("############################################################################");
+    println!("#    uuidof usage:                                                         #");
+    println!("#    [uuidof sda1] returns the UUID assocaited with the passed drive name. #");
+    println!("#    [uuidof] returns all UUIDs                                            #");
+    println!("#    [uuidof help or uuidof h] prints this help message.                   #");
+    println!("############################################################################");
+}
 
 fn main() -> Result<(), regex::Error> {
     let args: Vec<String> = env::args().collect(); // Capture args
@@ -83,7 +87,7 @@ fn main() -> Result<(), regex::Error> {
     let uuid_long_regex: Regex =
         Regex::new(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")?;
 
-    let disk_name_regex: Regex = Regex::new("../../[a-z0-9]*")?;
+    let _disk_name_regex: Regex = Regex::new("../../[a-z0-9]*")?;
 
     let data = get_device_data().unwrap();
 
@@ -97,13 +101,18 @@ fn main() -> Result<(), regex::Error> {
             }
         }
         2 => {
+            if args[1] == "help" || args[1] == "h" {
+                print_help();
+                return Ok(())
+            }
+
             if let Some(uuid) = get_uuid_of(
                 &args[1],
                 &data_to_vec(data),
                 uuid_long_regex,
                 uuid_short_regex,
             ) {
-                write!(std::io::stdout(), "{}", uuid).expect("Failed to write to stdout");
+                writeln!(std::io::stdout(), "{}", uuid).expect("Failed to write to stdout");
             }
         }
         _ => {}
