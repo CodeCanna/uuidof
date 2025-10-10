@@ -1,5 +1,6 @@
 use regex::Regex;
 use std::{env, process::Command, string::FromUtf8Error};
+use std::io::Write;
 
 fn get_device_data() -> Result<String, FromUtf8Error> {
     let output = if cfg!(target_os = "windows") {
@@ -82,6 +83,8 @@ fn main() -> Result<(), regex::Error> {
     let uuid_long_regex: Regex =
         Regex::new(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")?;
 
+    let disk_name_regex: Regex = Regex::new("../../[a-z0-9]*")?;
+
     let data = get_device_data().unwrap();
 
     match args.len() {
@@ -90,7 +93,7 @@ fn main() -> Result<(), regex::Error> {
             for uuid in
                 get_all_uuids(&data_to_vec(data), uuid_long_regex, uuid_short_regex).unwrap()
             {
-                println!("{}", uuid);
+                writeln!(std::io::stdout(), "{}", uuid).expect("Failed to write to stdout");
             }
         }
         2 => {
@@ -100,7 +103,7 @@ fn main() -> Result<(), regex::Error> {
                 uuid_long_regex,
                 uuid_short_regex,
             ) {
-                println!("{}", uuid);
+                write!(std::io::stdout(), "{}", uuid).expect("Failed to write to stdout");
             }
         }
         _ => {}
