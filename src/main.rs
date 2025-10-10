@@ -1,20 +1,13 @@
 use regex::Regex;
-use std::{env, process::Command, string::FromUtf8Error};
 use std::io::Write;
+use std::{env, process::Command, string::FromUtf8Error};
 
 fn get_device_data() -> Result<String, FromUtf8Error> {
-    let output = if cfg!(target_os = "windows") {
-        Command::new("cmd")
-            .args(["/C", "echo hello"])
-            .output()
-            .expect("failed to execute process")
-    } else {
-        Command::new("sh")
-            .arg("-c")
-            .arg("ls -l /dev/disk/by-uuid")
-            .output()
-            .expect("failed to execute process")
-    };
+    let output = Command::new("sh")
+        .arg("-c")
+        .arg("ls -l /dev/disk/by-uuid")
+        .output()
+        .expect("failed to execute process");
     let devices_string = String::from_utf8(output.stdout)?;
     Ok(devices_string)
 }
@@ -103,7 +96,7 @@ fn main() -> Result<(), regex::Error> {
         2 => {
             if args[1] == "help" || args[1] == "h" {
                 print_help();
-                return Ok(())
+                return Ok(());
             }
 
             if let Some(uuid) = get_uuid_of(
@@ -141,8 +134,13 @@ mod tests {
         let uuid_short_regex: Regex = Regex::new(r"[A-F0-9]{4}-[A-F0-9]{4}").unwrap(); // For short UUIDs
         let uuid_long_regex: Regex = Regex::new(
             r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}",
-        ).unwrap();
-        let uuids = get_all_uuids(&data_to_vec(get_device_data().unwrap()), uuid_long_regex.clone(), uuid_short_regex.clone());
+        )
+        .unwrap();
+        let uuids = get_all_uuids(
+            &data_to_vec(get_device_data().unwrap()),
+            uuid_long_regex.clone(),
+            uuid_short_regex.clone(),
+        );
         for uuid in uuids.unwrap() {
             if uuid_long_regex.is_match(&uuid) {
                 assert!(uuid_long_regex.is_match(&uuid));
