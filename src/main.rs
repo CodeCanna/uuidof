@@ -68,7 +68,7 @@ fn get_uuid_of(
 fn print_help() {
     println!("############################################################################");
     println!("#    uuidof usage:                                                         #");
-    println!("#    [uuidof sda1] returns the UUID assocaited with the passed drive name. #");
+    println!("#    [uuidof sda1] returns the UUID assocaited with the passed drive sda1. #");
     println!("#    [uuidof] returns all UUIDs                                            #");
     println!("#    [uuidof help or uuidof h] prints this help message.                   #");
     println!("############################################################################");
