@@ -1,1 +1,3 @@
+# uuidof
+
 uuidof gets the UUID of the drive name passed to it ex `uuidof sda1` returns the UUID associated with that drive name.  No args returns all of the UUIDs, they should be in the same order as they appear in `/dev/disks/by-uuid/`.
