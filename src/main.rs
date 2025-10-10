@@ -80,7 +80,7 @@ fn main() -> Result<(), regex::Error> {
     let uuid_long_regex: Regex =
         Regex::new(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")?;
 
-    let _disk_name_regex: Regex = Regex::new("../../[a-z0-9]*")?;
+    let _disk_name_regex: Regex = Regex::new(r"\.\./\.\./[a-z0-9]*")?;
 
     let data = get_device_data().unwrap();
 
