@@ -1,7 +1,15 @@
 [package]
 name = "uuidof"
+description = "A cli program that grabs the UUID of the drive name passed to it, or return all UUIDs of all detected drives."
+documentation = "https://github.com/CodeCanna/uuidof"
+readme = "README.md"
+repository = "https://github.com/CodeCanna/uuidof"
+homepage = "https://github.com/CodeCanna/uuidof"
+keywords = ["cli", "uuid", "drive_uuid"]
+categories = ["command-line-utilities"]
+license-file = "LICENSE"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-regex = "1.11.3"
+regex = "1.12.2"
